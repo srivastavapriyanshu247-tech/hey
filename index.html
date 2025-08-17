@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Program</title>
+</head>
+<body>
+  <h2>Enter Your Name</h2>
+  <input type="text" id="username" placeholder="Enter your name">
+  <button onclick="checkName()">Submit</button>
+  
+  <!-- Step 2 -->
+  <div id="step2" style="display:none; margin-top:20px;">
+    <h3>Kya kr rhi h?</h3>
+    <button onclick="nextStep('Kuch nhii')">1. Kuch nhii</button>
+    <button onclick="nextStep('Pta nhii')">2. Pta nhii</button>
+  </div>
+
+  <!-- Step 3 -->
+  <div id="step3" style="display:none; margin-top:20px;">
+    <h3>Baat krna h?</h3>
+    <button onclick="baatAnswer('Mnn nhi h')">1. Mnn nhi h</button>
+    <button onclick="baatAnswer('Haan')">2. Haan</button>
+  </div>
+
+  <!-- Final Step -->
+  <div id="finalStep" style="display:none; margin-top:20px;">
+    <h2>DM d4rkprince.18</h2>
+  </div>
+
+  <h3>Output:</h3>
+  <pre id="output"></pre>
+
+  <script>
+    function checkName() {
+      let name = document.getElementById("username").value.trim();
+      let validNames = ["palak", "Palak", "palak ranjan", "Palak ranjan"];
+
+      if (validNames.includes(name)) {
+        document.getElementById("output").innerText = "✅ Welcome " + name;
+        document.getElementById("step2").style.display = "block"; 
+      } else {
+        document.getElementById("output").innerText = "ATMKBFJ";
+        document.getElementById("step2").style.display = "none"; 
+        document.getElementById("step3").style.display = "none"; 
+        document.getElementById("finalStep").style.display = "none"; 
+      }
+    }
+
+    function nextStep(choice) {
+      document.getElementById("output").innerText = "You chose: " + choice;
+      document.getElementById("step3").style.display = "block"; 
+    }
+
+    function baatAnswer(choice) {
+      if (choice === "Mnn nhi h") {
+        document.getElementById("output").innerText = "You said: Mnn nhi h → Asking again...";
+        // repeat question, step3 stays visible
+      } else if (choice === "Haan") {
+        document.getElementById("output").innerText = "You said: Haan ✅";
+        document.getElementById("finalStep").style.display = "block"; // show final message
+        document.getElementById("step3").style.display = "none"; // hide question
+      }
+    }
+  </script>
+</body>
+</html>
