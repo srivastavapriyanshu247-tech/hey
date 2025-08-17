@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Flow</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h2, h3 {
+      color: #333;
+    }
+    .typing {
+      font-weight: bold;
+      color: darkblue;
+      white-space: pre-wrap;
+    }
+    .hidden {
+      display: none;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enter Your Name</h2>
+  <input type="text" id="nameInput" placeholder="Enter name">
+  <button onclick="submitName()">Submit</button>
+
+  <h3 id="question" class="typing hidden"></h3>
+  <div id="options" class="hidden"></div>
+
+  <script>
+    let step = 0;
+
+    function submitName() {
+      const name = document.getElementById("nameInput").value.trim().toLowerCase();
+      if (name === "palak" || name === "palak ranjan") {
+        step = 1;
+        askQuestion("Kya kr rhi h?", ["Kuch nhii", "Pta nhii"]);
+      } else {
+        document.getElementById("question").classList.remove("hidden");
+        typeEffect("ATMKBFJ");
+      }
+    }
+
+    function askQuestion(text, options) {
+      const q = document.getElementById("question");
+      const optDiv = document.getElementById("options");
+      q.classList.remove("hidden");
+      optDiv.classList.add("hidden");
+      typeEffect(text, () => {
+        optDiv.innerHTML = "";
+        options.forEach(opt => {
+          const btn = document.createElement("button");
+          btn.innerText = opt;
+          btn.onclick = () => handleAnswer(opt);
+          optDiv.appendChild(btn);
+        });
+        optDiv.classList.remove("hidden");
+      });
+    }
+
+    function handleAnswer(answer) {
+      if (step === 1) {
+        step = 2;
+        askQuestion("Baat krna h?", ["Mnn nhi h", "Haan"]);
+      } else if (step === 2) {
+        if (answer === "Mnn nhi h") {
+          askQuestion("Baat krna h?", ["Mnn nhi h", "Haan"]); // repeat
+        } else if (answer === "Haan") {
+          typeEffect("DM d4rkprince.18");
+          document.getElementById("options").classList.add("hidden");
+        }
+      }
+    }
+
+    function typeEffect(text, callback) {
+      const q = document.getElementById("question");
+      q.textContent = "";
+      let i = 0;
+      function typing() {
+        if (i < text.length) {
+          q.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, 50);
+        } else if (callback) {
+          setTimeout(callback, 300);
+        }
+      }
+      typing();
+    }
+  </script>
+</body>
+</html>
